@@ -58,5 +58,45 @@
 
     </div> 
 
+    <h2>Today's Tasks</h2>
+  
+    <div class="tasks">
+    <label>
+      <input type="checkbox">
+      Complete Mathematics
+    </label>
+    
+    <label>
+      <input type="checkbox">
+      Practice Python
+    </label>
+
+    <label>
+       <input type="checkbox">
+      Practice DSA
+    </label>
+    </div>
+
+    <h2>Study Progress</h2>
+
+    <progress id="progress" value="0" max="3"></progress>
+
+    <p id="progressText">0 of 3 tasks completed</p>
+
+    <script>
+    const checkboxes = document.querySelectorAll('.tasks input');
+
+    checkboxes.forEach(function(box) {
+    box.addEventListener('change', updateProgress);
+  });
+
+    function updateProgress() {
+    const completed = document.querySelectorAll('.tasks input:checked').length;
+
+    document.getElementById('progress').value = completed;
+    document.getElementById('progressText').innerText =
+        completed + " of 3 tasks completed";
+   }
+</script>
     </body>
     </html>
