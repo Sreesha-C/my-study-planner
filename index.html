@@ -20,6 +20,14 @@ table{width:100%;border-collapse:collapse;background:white}
 th,td{padding:12px;border:1px solid #ddd}th{background:#3157a4;color:white}
 body.dark{background:#1e2430;color:#eee}body.dark h2,body.dark p{color:#ddd}
 body.dark .card,body.dark .tasks,body.dark .extra,body.dark table{background:#2b3242;color:#eee}
+textarea {
+    width: 90%;
+    min-height: 150px;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
 </style>
 </head>
 <body>
@@ -92,6 +100,86 @@ function clearCompleted(){
 }
 document.querySelectorAll('.task').forEach(t=>t.addEventListener("change",updateProgress));
 date.innerText="Today: "+new Date().toLocaleDateString();
+let time = 25 * 60;
+let timerInterval;
+
+function startTimer() {
+    timerInterval = setInterval(function() {
+        let minutes = Math.floor(time / 60);
+        let seconds = time % 60;
+
+        document.getElementById("timer").innerText =
+            String(minutes).padStart(2, "0") + ":" +
+            String(seconds).padStart(2, "0");
+
+        if (time <= 0) {
+            clearInterval(timerInterval);
+            alert("Time's up! 🎉");
+        } else {
+            time--;
+        }
+    }, 1000);
+}
+
+function pauseTimer() {
+    clearInterval(timerInterval);
+}
+
+function resetTimer() {
+    clearInterval(timerInterval);
+    time = 25 * 60;
+    document.getElementById("timer").innerText = "25:00";
+}
+
+function saveNotes() {
+    localStorage.setItem("studyNotes", document.getElementById("notes").value);
+    document.getElementById("notesMessage").innerText = "Notes saved! ✅";
+}
+
+function clearNotes() {
+    document.getElementById("notes").value = "";
+    localStorage.removeItem("studyNotes");
+    document.getElementById("notesMessage").innerText = "Notes cleared.";
+}
+
+document.getElementById("notes").value = localStorage.getItem("studyNotes") || "";
 </script>
+
+<h2> Study Timer</h2>
+
+<div class="timer">
+   <h1 id="timer">25:00</h1>
+  <button onclick="startTimer()">Start</button>
+  <button onclick="pauseTimer()">Pause</button>
+  <button onclick="resetTimer()">Reset</button>
+</div>
+<h2> Study Notes</h2>
+
+<textarea id="notes" placeholder="Write your study notes here..."></textarea>
+<br><br>
+
+<button onclick="saveNotes()">Save Notes</button>
+<button onclick="clearNotes()">Clear Notes</button>
+
+<p id="notesMessage"></p>
+<h2>📚 Study Resources</h2>
+
+<div class="card">
+    <h3>📐 Mathematics</h3>
+    <p>Calculus and Algebra</p>
+    <a href="https://vtu.ac.in/pdf/UG2024/1BMATS101.pdf" target="_blank">Open VTU Mathematics</a>
+</div>
+
+<div class="card">
+    <h3>🐍 Python</h3>
+    <p>Python Programming</p>
+    <a href="https://www.youtube.com/results?search_query=VTU+Python+Programming" target="_blank">Open Python Resources</a>
+</div>
+
+<div class="card">
+    <h3>💻 DSA</h3>
+    <p>Data Structures and Algorithms</p>
+    <a href="https://www.youtube.com/results?search_query=VTU+DSA" target="_blank">Open DSA Resources</a>
+</div>
 </body>
 </html>
